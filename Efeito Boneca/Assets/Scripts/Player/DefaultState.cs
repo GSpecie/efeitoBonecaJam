@@ -16,25 +16,24 @@ public class DefaultState : IPlayerStates
     public void CheckInput()
     {
         player.leftJoystick = player.actionMap.Default.Movement.ReadValue<Vector2>();
-        //player.rightJoystickHorizontal = player.actionMap.Default.Direction.ReadValue<float>();
-        //player.rightJoystickVertical = player.actionMap.Default.Direction.ReadValue<float>();
+        player.rightJoystick = player.actionMap.Default.RightStickDirection.ReadValue<Vector2>();
+        player.shootButton = player.actionMap.Default.Shoot.triggered;
+        player.dashButton = player.actionMap.Default.Dash.triggered;
 
-        //player.dashButton = player.actionMap.Default.Dash.ReadValue<InputBinding>();
-
-        //player.cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
-        float rayLenght;
-
-        if (groundPlane.Raycast(player.cameraRay, out rayLenght))
-        {
-            Vector3 pointToLook = player.cameraRay.GetPoint(rayLenght);
-            Debug.DrawLine(player.cameraRay.origin, pointToLook, Color.blue);
-
-            player.transform.LookAt(new Vector3(pointToLook.x, player.transform.position.y, pointToLook.z));
-        }
-
+        if (player.shootButton) Shoot();
+        if (player.dashButton) Dash();
         //if (player.dashButton && player.currentHealth > 10f) Dash();
+    }
+
+    public void Shoot()
+    {
+        player.muzzleVFX.Play();
+        player.bullets[player.bulletIndex].transform.position = player.bulletPoint.position;
+        player.bullets[player.bulletIndex].transform.rotation = player.bulletPoint.rotation;
+        player.bullets[player.bulletIndex].ResetTiming();
+        player.bullets[player.bulletIndex].gameObject.SetActive(true);
+        player.bulletIndex++;
+        if (player.bulletIndex == player.bullets.Length - 1) player.bulletIndex = 0;
     }
 
     public void Life()
@@ -61,10 +60,43 @@ public class DefaultState : IPlayerStates
 
         player.direction = (leftHorizontalMovement + leftVerticalMovement).normalized;
 
+        if (player.direction != Vector3.zero) player.transform.forward = player.direction;
 
         Vector3 fakeGravity = new Vector3(0, Physics.gravity.y, 0) * Time.deltaTime;
 
         player.rb.velocity = fakeGravity + player.direction * player.moveSpeed + player.externalForce + player.dashPower;
+
+        if (player.isGamepad == true)
+        {
+            if (player.rightJoystick.x != 0) player.lastRightJoystickHorizontal = player.rightJoystick.x;
+
+            player.rightHorizontalMovement = player.rightHorizontal * player.moveSpeed * Time.deltaTime * player.lastRightJoystickHorizontal;
+
+            if (player.rightJoystick.y != 0) player.lastRightJoystickVertical = player.rightJoystick.y;
+
+            player.rightVerticalMovement = player.rightVertical * player.moveSpeed * Time.deltaTime * player.lastRightJoystickVertical;
+
+            player.playerFacingDirection = (player.rightHorizontalMovement + player.rightVerticalMovement);
+
+            Vector3 newFaceLook = new Vector3(player.playerFacingDirection.x, 0, player.playerFacingDirection.z);
+
+            if (player.playerFacingDirection != Vector3.zero) player.transform.forward = player.playerFacingDirection;
+        }
+        else if (player.isGamepad == false)
+        {
+            player.cameraRay = Camera.main.ScreenPointToRay(player.actionMap.Default.MouseDirection.ReadValue<Vector2>());
+
+            Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
+            float rayLenght;
+
+            if (groundPlane.Raycast(player.cameraRay, out rayLenght))
+            {
+                Vector3 pointToLook = player.cameraRay.GetPoint(rayLenght);
+                Debug.DrawLine(player.cameraRay.origin, pointToLook, Color.blue);
+
+                player.transform.LookAt(new Vector3(pointToLook.x, player.transform.position.y, pointToLook.z));
+            }
+        }
 
         //player.CharacterAnim.SetFloat("positionX", player.leftJoystickHorizontal);
         //player.CharacterAnim.SetFloat("positionY", player.leftJoystickHorizontal);

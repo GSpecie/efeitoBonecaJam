@@ -39,18 +39,15 @@ public class Player : MonoBehaviour
 
     //variáveis botões e analógicos
 
+    public bool isGamepad;
     public PlayerActionMapControls actionMap;
 
     [HideInInspector]
     public Vector2 leftJoystick;
     [HideInInspector]
-    public float rightJoystickHorizontal;
+    public Vector2 rightJoystick;
     [HideInInspector]
-    public float rightJoystickVertical;
-    [HideInInspector]
-    public bool shieldButton;
-    [HideInInspector]
-    public bool shareLifeButton;
+    public bool shootButton;
     [HideInInspector]
     public bool dashButton;
     [HideInInspector]
@@ -65,7 +62,7 @@ public class Player : MonoBehaviour
 
     //variáveis vetores de movimentação
     [HideInInspector]
-    public Vector3 vertical, horizontal, direction;
+    public Vector3 vertical, horizontal, rightVertical, rightHorizontal, direction;
 
     [HideInInspector]
     public Vector3 rightHorizontalMovement;
@@ -83,6 +80,17 @@ public class Player : MonoBehaviour
 
     [HideInInspector]
     public Ray cameraRay;
+
+
+    //variáveis projéil
+    public PlayerProjectile[] bullets;
+    [HideInInspector] public int bulletIndex = 0;
+    public Transform bulletPoint;
+
+    public PlayerProjectile bulletPrefab;
+    [HideInInspector] public Queue<PlayerProjectile> bulletShots = new Queue<PlayerProjectile>();
+
+    public ParticleSystem muzzleVFX;
 
     //cooldowns
 
@@ -132,12 +140,12 @@ public class Player : MonoBehaviour
         horizontal = Camera.main.transform.right;
         horizontal = Vector3.ProjectOnPlane(horizontal, Vector3.up).normalized;
 
-        //rightVertical = Camera.main.transform.forward;
-        //rightVertical.y = 0;
-        //rightVertical = Vector3.ProjectOnPlane(rightVertical, Vector3.up).normalized;
+        rightVertical = Camera.main.transform.forward;
+        rightVertical.y = 0;
+        rightVertical = Vector3.ProjectOnPlane(rightVertical, Vector3.up).normalized;
 
-        //rightHorizontal = Camera.main.transform.right;
-        //rightHorizontal = Vector3.ProjectOnPlane(rightHorizontal, Vector3.up).normalized;
+        rightHorizontal = Camera.main.transform.right;
+        rightHorizontal = Vector3.ProjectOnPlane(rightHorizontal, Vector3.up).normalized;
 
         currentState = defaultState;
 
@@ -154,10 +162,16 @@ public class Player : MonoBehaviour
         externalForce = Vector3.Lerp(externalForce, Vector3.zero, Time.deltaTime * 8f);
 
         dashPower = Vector3.Lerp(dashPower, Vector3.zero, Time.deltaTime * 8f);
+
     }
 
     private void LateUpdate()
     {
+    }
+
+    public void OnDeviceChange(PlayerInput pI)
+    {
+        isGamepad = pI.currentControlScheme.Equals("Gamepad") ? true : false;
     }
 
     private void FixedUpdate()
