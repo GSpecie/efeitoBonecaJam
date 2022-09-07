@@ -22,38 +22,105 @@ public class DefaultState : IPlayerStates
 
         if (player.shootButton) Shoot();
         if (player.dashButton) Dash();
-        //if (player.dashButton && player.currentHealth > 10f) Dash();
     }
 
     public void Shoot()
     {
-        player.muzzleVFX.Play();
-        player.bullets[player.bulletIndex].transform.position = player.bulletPoint.position;
-        player.bullets[player.bulletIndex].transform.rotation = player.bulletPoint.rotation;
-        player.bullets[player.bulletIndex].ResetTiming();
-        player.bullets[player.bulletIndex].gameObject.SetActive(true);
-        player.bulletIndex++;
-        if (player.bulletIndex == player.bullets.Length - 1) player.bulletIndex = 0;
+        if(player.cooldownToShoot <= 0 && player.currentShootEnergy > 15f)
+        {
+            player.cooldownToShoot = player.cooldownToShootOriginal;
+            player.currentShootEnergy -= 30f;
+            Recoil();
+            player.muzzleVFX.Play();
+
+            player.bullets[player.bulletIndex].transform.position = player.bulletPoint.position;
+            player.bullets[player.bulletIndex].transform.rotation = player.bulletPoint.rotation;
+            player.bullets[player.bulletIndex].ResetTiming();
+            player.bullets[player.bulletIndex].gameObject.SetActive(true);
+            player.bulletIndex++;
+            if (player.bulletIndex == player.bullets.Length - 1) player.bulletIndex = 0;
+        }
     }
 
-    public void Life()
+    public void Recoil()
     {
-        player.healthPercentage = player.currentHealth / player.maximumHealth;
-        //player.currentHealthBar.rectTransform.localScale = new Vector3(1, player.healthPercentage, 1);
-        //player.currentHealthBar.fillAmount = player.healthPercentage;
+        player.recoilForce += -player.transform.forward * player.recoilPower;
+    }
 
+    public void EnergyBars()
+    {
+        MovementEnergy();
+        ShootEnergy();
+    }
 
-        if (player.currentHealth >= player.maximumHealth) player.currentHealth = player.maximumHealth;
+    public void MovementEnergy()
+    {
+        player.dashEnergyPercentage = player.currentDashEnergy / player.maximumDashEnergy;
+        player.currentDashBar.fillAmount = player.dashEnergyPercentage;
 
-        if (player.currentHealth <= 0)
+        if (player.cooldownToDash <= 0) player.currentDashEnergy += 0.1f;
+
+        if (player.currentDashEnergy >= player.maximumDashEnergy)
         {
-            player.currentHealth = 0;
+            player.currentDashEnergy = player.maximumDashEnergy;
+            player.dashPower = player.superDash;
+        }
+        else if (player.currentDashEnergy >= 71)
+        {
+            player.moveSpeed = player.highSpeed;
+            player.dashPower = player.highDash;
+        }
+        else if (player.currentDashEnergy >= 41)
+        {
+            player.moveSpeed = player.mediumSpeed;
+            player.dashPower = player.mediumDash;
+        }
+        else if (player.currentDashEnergy >= 11)
+        {
+            player.moveSpeed = player.minimumSpeed;
+            player.dashPower = player.mininumDash;
+        }
+
+        if (player.currentDashEnergy <= 0)
+        {
+            player.currentDashEnergy = 0;
+        }
+    }
+
+    public void ShootEnergy()
+    {
+        player.shootEnergyPercentage = player.currentShootEnergy / player.maximumShootEnergy;
+        player.currentShootBar.fillAmount = player.shootEnergyPercentage;
+
+        if (player.cooldownToShoot <= 0) player.currentShootEnergy += 0.1f;
+
+        if (player.currentShootEnergy >= player.maximumDashEnergy)
+        {
+            player.currentShootEnergy = player.maximumShootEnergy;
+            player.recoilPower = player.superRecoil;
+        }
+        else if (player.currentShootEnergy >= 71)
+        {
+            player.recoilPower = player.highRecoil;
+        }
+        else if (player.currentShootEnergy >= 41)
+        {
+            player.recoilPower = player.mediumRecoil;
+        }
+        else if (player.currentShootEnergy >= 11)
+        {
+            player.recoilPower = player.mininumRecoil;
+        }
+
+        if (player.currentShootEnergy <= 0)
+        {
+            player.currentShootEnergy = 0;
         }
     }
 
     public void Move()
     {
-        player.moveSpeed = 15f;
+        //player.moveSpeed = 15f;
 
         Vector3 leftHorizontalMovement = player.horizontal * player.leftJoystick.x;
         Vector3 leftVerticalMovement = player.vertical * player.leftJoystick.y;
@@ -64,7 +131,7 @@ public class DefaultState : IPlayerStates
 
         Vector3 fakeGravity = new Vector3(0, Physics.gravity.y, 0) * Time.deltaTime;
 
-        player.rb.velocity = fakeGravity + player.direction * player.moveSpeed + player.externalForce + player.dashPower;
+        player.rb.velocity = fakeGravity + player.direction * player.moveSpeed + player.externalForce + player.dashForce + player.recoilForce;
 
         if (player.isGamepad == true)
         {
@@ -109,7 +176,7 @@ public class DefaultState : IPlayerStates
     }
     public void TakeDamage(float damage)
     {
-        player.currentHealth -= damage;
+        player.currentDashEnergy -= damage;
     }
 
     public void CheckCasts()
@@ -126,6 +193,7 @@ public class DefaultState : IPlayerStates
     public void DropCooldown()
     {
         player.cooldownToDash -= Time.fixedDeltaTime;
+        player.cooldownToShoot -= Time.fixedDeltaTime;
     }
 
     public void CreatePlayerImpact(Vector3 ImpactValue)
@@ -135,21 +203,28 @@ public class DefaultState : IPlayerStates
 
     public void Dash()
     {
-        Vector3 leftHorizontalMovement = player.horizontal * player.leftJoystick.x;
-        Vector3 leftVerticalMovement = player.vertical * player.leftJoystick.y;
-
-        player.direction = (leftHorizontalMovement + leftVerticalMovement).normalized;
-
-        //player.CharacterAnim.SetTrigger("dash");
-
-        TakeDamage(5f);
-        if (player.leftJoystick != Vector2.zero)
+        if (player.cooldownToDash <=0 && player.currentDashEnergy > 10f)
         {
-            player.dashPower += player.direction * player.dashMultiplier;
+            Vector3 leftHorizontalMovement = player.horizontal * player.leftJoystick.x;
+            Vector3 leftVerticalMovement = player.vertical * player.leftJoystick.y;
+
+            player.direction = (leftHorizontalMovement + leftVerticalMovement).normalized;
+
+            //player.CharacterAnim.SetTrigger("dash");
+
+            //TakeDamage(5f);
+            player.cooldownToDash = player.cooldownToDashOriginal;
+            player.currentDashEnergy -= 30f;
+
+            if (player.leftJoystick != Vector2.zero)
+            {
+                player.dashForce += player.direction * player.dashPower;
+            }
+            else
+            {
+                player.dashForce += player.transform.forward * player.dashPower;
+            }
         }
-        else
-        {
-            player.dashPower += player.transform.forward * player.dashMultiplier;
-        }
+
     }
 }

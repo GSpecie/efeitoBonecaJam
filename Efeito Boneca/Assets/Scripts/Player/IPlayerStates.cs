@@ -24,7 +24,7 @@ public interface IPlayerStates
     /// <summary>
     /// Atribui a barra de vida/energia ao jogador
     /// </summary>
-    void Life();
+    void EnergyBars();
     /// <summary>
     /// mudanças simples ao entrar em cada estado, tais como desativar e ativar um objeto
     /// </summary>

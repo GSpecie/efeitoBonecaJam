@@ -42,7 +42,7 @@ public class FallenState : IPlayerStates
         throw new System.NotImplementedException();
     }
 
-    public void Life()
+    public void EnergyBars()
     {
         throw new System.NotImplementedException();
     }

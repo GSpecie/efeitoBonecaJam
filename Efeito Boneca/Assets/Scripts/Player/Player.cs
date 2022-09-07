@@ -32,7 +32,8 @@ public class Player : MonoBehaviour
     IPlayerStates currentState;
 
     //variável velocidade de movimentação
-    public float moveSpeed = 15f;
+    public float moveSpeed;
+    public float minimumSpeed, mediumSpeed, highSpeed;
 
     //variável rigibody
     public Rigidbody rb;
@@ -69,14 +70,23 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public Vector3 rightVerticalMovement;
 
-    //variáveis vida
+    //variáveis energia movimentação
     [HideInInspector]
-    public float healthPercentage;
+    public float dashEnergyPercentage;
 
-    public float currentHealth = 100;
+    public float currentDashEnergy = 100;
     [HideInInspector]
-    public float maximumHealth = 100;
-    //public Image currentHealthBar;
+    public float maximumDashEnergy = 100;
+    public Image currentDashBar;
+
+    //variáveis energia disparo
+    [HideInInspector]
+    public float shootEnergyPercentage;
+
+    public float currentShootEnergy = 100;
+    [HideInInspector]
+    public float maximumShootEnergy = 100;
+    public Image currentShootBar;
 
     [HideInInspector]
     public Ray cameraRay;
@@ -94,18 +104,29 @@ public class Player : MonoBehaviour
 
     //cooldowns
 
-    public float cooldownToDie = 10f;
+    [HideInInspector] public float cooldownToDie = 10f;
     public float cooldownToDieOriginal = 10f;
 
-    public float cooldownToDash = 1f;
+    [HideInInspector] public float cooldownToDash = 1f;
     public float cooldownToDashOriginal = 1f;
+
+    [HideInInspector] public float cooldownToShoot = 1f;
+    public float cooldownToShootOriginal = 1f;
 
     [HideInInspector]
     public Vector3 externalForce = Vector3.zero;
     [HideInInspector]
-    public Vector3 dashPower = Vector3.zero;
+    public Vector3 dashForce = Vector3.zero;
     //[HideInInspector]
-    public float dashMultiplier = 50f;
+    public float dashPower;
+    public float mininumDash, mediumDash, highDash, superDash;
+
+    //recoil
+    [HideInInspector]
+    public Vector3 recoilForce = Vector3.zero;
+    //[HideInInspector]
+    public float recoilPower;
+    public float mininumRecoil, mediumRecoil, highRecoil, superRecoil;
 
     float lastDamageTime = Mathf.NegativeInfinity;
 
@@ -127,6 +148,8 @@ public class Player : MonoBehaviour
         deadState = new DeadState(this);
 
         cooldownToDie = cooldownToDieOriginal;
+        cooldownToDash = cooldownToDashOriginal;
+        cooldownToShoot = cooldownToShootOriginal;
         //CharacterAnim = GetComponent<Animator>();
     }
 
@@ -159,10 +182,16 @@ public class Player : MonoBehaviour
         CheckCasts();
         Life();
 
+        ResetForces();
+    }
+
+    void ResetForces()
+    {
         externalForce = Vector3.Lerp(externalForce, Vector3.zero, Time.deltaTime * 8f);
 
-        dashPower = Vector3.Lerp(dashPower, Vector3.zero, Time.deltaTime * 8f);
+        dashForce = Vector3.Lerp(dashForce, Vector3.zero, Time.deltaTime * 8f);
 
+        recoilForce = Vector3.Lerp(recoilForce, Vector3.zero, Time.deltaTime * 8f);
     }
 
     private void LateUpdate()
@@ -217,7 +246,7 @@ public class Player : MonoBehaviour
 
     void Life()
     {
-        currentState.Life();
+        currentState.EnergyBars();
     }
 
 
