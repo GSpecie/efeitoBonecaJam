@@ -1446,6 +1446,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camAnimator: {fileID: 260188133}
   roomNumber: 1
+--- !u!4 &1410183489 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7410912097689995624, guid: 806b4ee669a91c742a1bdce3b48cd3e9, type: 3}
+  m_PrefabInstance: {fileID: 7410912097075008493}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1469277008
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1538,6 +1543,7 @@ GameObject:
   - component: {fileID: 1503326498}
   - component: {fileID: 1503326497}
   - component: {fileID: 1503326496}
+  - component: {fileID: 1503326500}
   m_Layer: 0
   m_Name: wall
   m_TagString: Untagged
@@ -1623,6 +1629,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!195 &1503326500
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1503326495}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1001 &1590559703
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1884,6 +1912,7 @@ GameObject:
   - component: {fileID: 2040116662}
   - component: {fileID: 2040116661}
   - component: {fileID: 2040116665}
+  - component: {fileID: 2040116666}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -1983,6 +2012,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actualHealth: 0
   maxHealth: 3
+  target: {fileID: 1410183489}
+  moveSpeed: 4
+--- !u!54 &2040116666
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2040116660}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &2067789861
 GameObject:
   m_ObjectHideFlags: 3
