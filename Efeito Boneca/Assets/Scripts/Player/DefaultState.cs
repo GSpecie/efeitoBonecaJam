@@ -215,6 +215,7 @@ public class DefaultState : IPlayerStates
             //TakeDamage(5f);
             player.cooldownToDash = player.cooldownToDashOriginal;
             player.currentDashEnergy -= 30f;
+            player.dashVFX.Play();
 
             if (player.leftJoystick != Vector2.zero)
             {

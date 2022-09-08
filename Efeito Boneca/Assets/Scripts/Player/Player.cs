@@ -56,8 +56,8 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public float lastRightJoystickVertical;
 
-    public Vector3 playerFacingDirection;
-
+    [HideInInspector] public Vector3 playerFacingDirection;
+        
     [HideInInspector]
     public RaycastHit lookHit;
 
@@ -120,6 +120,8 @@ public class Player : MonoBehaviour
     //[HideInInspector]
     public float dashPower;
     public float mininumDash, mediumDash, highDash, superDash;
+
+    public ParticleSystem dashVFX;
 
     //recoil
     [HideInInspector]
