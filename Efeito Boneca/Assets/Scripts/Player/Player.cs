@@ -143,6 +143,9 @@ public class Player : MonoBehaviour
 
     int randomRunSound;
 
+    public AudioSource SFX_shoot;
+    public AudioSource SFX_dash;
+
     //váriaveis identidade
 
     [HideInInspector] public bool isFallen = false;

@@ -32,6 +32,7 @@ public class DefaultState : IPlayerStates
             player.currentShootEnergy -= 30f;
             player.currentDashEnergy += 15f;
             Recoil();
+            player.SFX_shoot.Play();
             player.muzzleVFX.Play();
 
             player.bullets[player.bulletIndex].transform.position = player.bulletPoint.position;
@@ -237,6 +238,7 @@ public class DefaultState : IPlayerStates
             player.currentDashEnergy -= 30f;
             player.currentShootEnergy += 15f;
             player.dashVFX.Play();
+            player.SFX_dash.Play();
 
             if (player.leftJoystick != Vector2.zero)
             {
