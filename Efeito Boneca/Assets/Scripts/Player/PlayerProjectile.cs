@@ -105,5 +105,15 @@ public class PlayerProjectile : MonoBehaviour
             myCollider.enabled = false;
             alreadyHitImpact = true;
         }
+
+        if (collision.gameObject.tag.Contains("Boss"))
+        {
+            BossOne otherEnemy = collision.gameObject.GetComponent<BossOne>();
+            otherEnemy.TakeDamage(m_damage);
+            shootVFX.Stop();
+            hitImpactVFX.Play();
+            myCollider.enabled = false;
+            alreadyHitImpact = true;
+        }
     }
 }

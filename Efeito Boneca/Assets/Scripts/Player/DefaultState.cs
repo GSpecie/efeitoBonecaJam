@@ -187,6 +187,7 @@ public class DefaultState : IPlayerStates
         {
             Debug.Log("aqui");
             player.isFallen = true;
+            player.SFX_identityFallen.Play();
             player.myLife.AttVisualFeedback();
         }
         

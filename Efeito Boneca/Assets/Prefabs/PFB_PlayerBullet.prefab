@@ -48,10 +48,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 1333129625531975317}
-  m_damage: 1
+  m_damage: 5
   impactIntensity: 1
   speed: 25
   cooldownToDisappearOriginal: 5
+  player: {fileID: 0}
   hitImpactVFX: {fileID: 379641647919581387}
   shootVFX: {fileID: 1333129625112084102}
   myCollider: {fileID: 1333129625531975318}

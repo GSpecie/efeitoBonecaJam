@@ -66,6 +66,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void StopAllVisuals()
     {
+
         identityV3VFX.Clear();
         identityV3VFX.Stop();
 

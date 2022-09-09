@@ -145,6 +145,7 @@ public class Player : MonoBehaviour
 
     public AudioSource SFX_shoot;
     public AudioSource SFX_dash;
+    public AudioSource SFX_identityFallen;
 
     //váriaveis identidade
 
@@ -173,19 +174,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        vertical = Camera.main.transform.forward;
-        vertical.y = 0;
-        vertical = Vector3.ProjectOnPlane(vertical, Vector3.up).normalized;
-
-        horizontal = Camera.main.transform.right;
-        horizontal = Vector3.ProjectOnPlane(horizontal, Vector3.up).normalized;
-
-        rightVertical = Camera.main.transform.forward;
-        rightVertical.y = 0;
-        rightVertical = Vector3.ProjectOnPlane(rightVertical, Vector3.up).normalized;
-
-        rightHorizontal = Camera.main.transform.right;
-        rightHorizontal = Vector3.ProjectOnPlane(rightHorizontal, Vector3.up).normalized;
+        AttMoveReference();
 
         currentState = defaultState;
 
@@ -348,7 +337,25 @@ public class Player : MonoBehaviour
     public void DesactivateHealthVisuals()
     {
         myLife.StopAllVisuals();
+        SFX_identityFallen.Stop();
         myMeshRenderer.material.mainTexture = charTexture;
+    }
+
+    public void AttMoveReference()
+    {
+        vertical = Camera.main.transform.forward;
+        vertical.y = 0;
+        vertical = Vector3.ProjectOnPlane(vertical, Vector3.up).normalized;
+
+        horizontal = Camera.main.transform.right;
+        horizontal = Vector3.ProjectOnPlane(horizontal, Vector3.up).normalized;
+
+        rightVertical = Camera.main.transform.forward;
+        rightVertical.y = 0;
+        rightVertical = Vector3.ProjectOnPlane(rightVertical, Vector3.up).normalized;
+
+        rightHorizontal = Camera.main.transform.right;
+        rightHorizontal = Vector3.ProjectOnPlane(rightHorizontal, Vector3.up).normalized;
     }
 }
 
