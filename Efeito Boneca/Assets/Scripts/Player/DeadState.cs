@@ -13,46 +13,42 @@ public class DeadState : IPlayerStates
 
     public void ChangesInStates()
     {
-        throw new System.NotImplementedException();
     }
 
     public void CheckCasts()
     {
-        throw new System.NotImplementedException();
     }
 
     public void CheckInput()
     {
-        throw new System.NotImplementedException();
     }
 
     public void CreatePlayerImpact(Vector3 impactValue)
     {
-        throw new System.NotImplementedException();
     }
 
+    public void Fallen()
+    {
+
+    }
     public void Dash()
     {
-        throw new System.NotImplementedException();
     }
 
     public void DropCooldown()
     {
-        throw new System.NotImplementedException();
     }
 
     public void EnergyBars()
     {
-        throw new System.NotImplementedException();
     }
 
     public void Move()
     {
-        throw new System.NotImplementedException();
+        player.rb.velocity = Vector3.zero;
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(Vector3 impactValue)
     {
-        throw new System.NotImplementedException();
     }
 }

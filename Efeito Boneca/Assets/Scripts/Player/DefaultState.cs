@@ -30,6 +30,7 @@ public class DefaultState : IPlayerStates
         {
             player.cooldownToShoot = player.cooldownToShootOriginal;
             player.currentShootEnergy -= 30f;
+            player.currentDashEnergy += 15f;
             Recoil();
             player.muzzleVFX.Play();
 
@@ -44,7 +45,7 @@ public class DefaultState : IPlayerStates
 
     public void Recoil()
     {
-        player.recoilForce += -player.transform.forward * player.recoilPower;
+        player.recoilForce += -player.playerChar.transform.forward * player.recoilPower;
     }
 
     public void EnergyBars()
@@ -67,17 +68,17 @@ public class DefaultState : IPlayerStates
         }
         else if (player.currentDashEnergy >= 71)
         {
-            player.moveSpeed = player.highSpeed;
+
             player.dashPower = player.highDash;
         }
         else if (player.currentDashEnergy >= 41)
         {
-            player.moveSpeed = player.mediumSpeed;
+
             player.dashPower = player.mediumDash;
         }
         else if (player.currentDashEnergy >= 11)
         {
-            player.moveSpeed = player.minimumSpeed;
+
             player.dashPower = player.mininumDash;
         }
 
@@ -101,14 +102,17 @@ public class DefaultState : IPlayerStates
         }
         else if (player.currentShootEnergy >= 71)
         {
+            player.moveSpeed = player.highSpeed;
             player.recoilPower = player.highRecoil;
         }
         else if (player.currentShootEnergy >= 41)
         {
+            player.moveSpeed = player.mediumSpeed;
             player.recoilPower = player.mediumRecoil;
         }
         else if (player.currentShootEnergy >= 11)
         {
+            player.moveSpeed = player.minimumSpeed;
             player.recoilPower = player.mininumRecoil;
         }
 
@@ -127,7 +131,7 @@ public class DefaultState : IPlayerStates
 
         player.direction = (leftHorizontalMovement + leftVerticalMovement).normalized;
 
-        if (player.direction != Vector3.zero) player.transform.forward = player.direction;
+        if (player.direction != Vector3.zero) player.playerChar.transform.forward = player.direction;
 
         Vector3 fakeGravity = new Vector3(0, Physics.gravity.y, 0) * Time.deltaTime;
 
@@ -147,7 +151,7 @@ public class DefaultState : IPlayerStates
 
             Vector3 newFaceLook = new Vector3(player.playerFacingDirection.x, 0, player.playerFacingDirection.z);
 
-            if (player.playerFacingDirection != Vector3.zero) player.transform.forward = player.playerFacingDirection;
+            if (player.playerFacingDirection != Vector3.zero) player.playerChar.transform.forward = player.playerFacingDirection;
         }
         else if (player.isGamepad == false)
         {
@@ -161,7 +165,7 @@ public class DefaultState : IPlayerStates
                 Vector3 pointToLook = player.cameraRay.GetPoint(rayLenght);
                 Debug.DrawLine(player.cameraRay.origin, pointToLook, Color.blue);
 
-                player.transform.LookAt(new Vector3(pointToLook.x, player.transform.position.y, pointToLook.z));
+                player.playerChar.transform.LookAt(new Vector3(pointToLook.x, player.transform.position.y, pointToLook.z));
             }
         }
 
@@ -174,9 +178,25 @@ public class DefaultState : IPlayerStates
         //}
         //else player.CharacterAnim.SetBool("isRunning", false);
     }
-    public void TakeDamage(float damage)
+    public void TakeDamage (Vector3 impactValue)
     {
-        player.currentDashEnergy -= damage;
+        player.externalForce += impactValue;
+
+        if (player.isFallen == false)
+        {
+            Debug.Log("aqui");
+            player.isFallen = true;
+            player.myLife.AttVisualFeedback();
+        }
+        
+    }
+
+
+    public void Fallen()
+    {
+            player.animatorChar.SetBool("IsFallen", true);
+            player.myMeshRenderer.material.mainTexture = player.dollTexture;
+            //player.cooldownToRaise -= Time.fixedDeltaTime;
     }
 
     public void CheckCasts()
@@ -215,6 +235,7 @@ public class DefaultState : IPlayerStates
             //TakeDamage(5f);
             player.cooldownToDash = player.cooldownToDashOriginal;
             player.currentDashEnergy -= 30f;
+            player.currentShootEnergy += 15f;
             player.dashVFX.Play();
 
             if (player.leftJoystick != Vector2.zero)
@@ -223,7 +244,7 @@ public class DefaultState : IPlayerStates
             }
             else
             {
-                player.dashForce += player.transform.forward * player.dashPower;
+                player.dashForce += player.playerChar.transform.forward * player.dashPower;
             }
         }
 
