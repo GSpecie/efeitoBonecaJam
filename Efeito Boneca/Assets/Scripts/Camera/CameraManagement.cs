@@ -6,6 +6,10 @@ public class CameraManagement : MonoBehaviour
 {
     public Animator camAnimator;
     public int roomNumber;
+    public Player myPlayer;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +28,7 @@ public class CameraManagement : MonoBehaviour
         {
             camAnimator.SetInteger("roomNumber", roomNumber);
 
+            //myPlayer.AttMoveReference();
             //myCamera.SetActive(true);
             //for (int i = 0; i < othersCamera.Length; i++)
             //{
