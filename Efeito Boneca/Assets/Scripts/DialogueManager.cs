@@ -42,7 +42,7 @@ public class DialogueManager : MonoBehaviour
 
 	IEnumerator WaitingPlayerRead()
     {
-		yield return new WaitForSeconds(5f);
+		yield return new WaitForSeconds(3f);
 		DisplayNextSentence();
 
 		StartCoroutine(WaitingPlayerRead());
