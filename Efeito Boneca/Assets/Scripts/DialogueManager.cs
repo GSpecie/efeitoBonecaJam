@@ -10,9 +10,9 @@ public class DialogueManager : MonoBehaviour
 	//public Text nameText;
 	public TextMeshProUGUI dialogueText;
 
-	//public Animator animator;
+    public Animator animator;
 
-	private Queue<string> sentences;
+    private Queue<string> sentences;
 
 	// Use this for initialization
 	void Start()
@@ -22,18 +22,30 @@ public class DialogueManager : MonoBehaviour
 
 	public void StartDialogue(Dialogue dialogue)
 	{
-		//animator.SetBool("IsOpen", true);
+        animator.SetBool("IsOpen", true);
 
-		//nameText.text = dialogue.name;
+        //nameText.text = dialogue.name;
 
-		sentences.Clear();
+        sentences.Clear();
 
 		foreach (string sentence in dialogue.sentences)
 		{
 			sentences.Enqueue(sentence);
 		}
 
+		StopAllCoroutines();
+
 		DisplayNextSentence();
+
+		StartCoroutine(WaitingPlayerRead());
+	}
+
+	IEnumerator WaitingPlayerRead()
+    {
+		yield return new WaitForSeconds(3f);
+		DisplayNextSentence();
+
+		StartCoroutine(WaitingPlayerRead());
 	}
 
 	public void DisplayNextSentence()
@@ -61,7 +73,8 @@ public class DialogueManager : MonoBehaviour
 
 	void EndDialogue()
 	{
-		//animator.SetBool("IsOpen", false);
-	}
+		StopAllCoroutines();
+		animator.SetBool("IsOpen", false);
+    }
 
 }

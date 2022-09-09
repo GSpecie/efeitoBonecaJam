@@ -16,7 +16,7 @@ public class PlayerProjectile : MonoBehaviour
     private float cooldownToDisappear;
     [SerializeField] private float cooldownToDisappearOriginal;
 
-    private Player player;
+    [SerializeField] private Player player;
 
 
     [SerializeField] private ParticleSystem hitImpactVFX;
@@ -52,10 +52,10 @@ public class PlayerProjectile : MonoBehaviour
         else rb.velocity = Vector3.zero;
     }
 
-    public void WhoIsThePlayer(Player player)
-    {
-        this.player = player;
-    }
+    //public void WhoIsThePlayer(Player player)
+    //{
+    //    this.player = player;
+    //}
 
     public void ResetTiming()
     {
@@ -77,7 +77,7 @@ public class PlayerProjectile : MonoBehaviour
     {
 
 
-        if (collision.gameObject.name.Contains("wall"))
+        if (collision.gameObject.name.Contains("Wall"))
         {
             shootVFX.Stop();
             hitImpactVFX.Play();
@@ -89,6 +89,17 @@ public class PlayerProjectile : MonoBehaviour
         {
             Enemy otherEnemy = collision.gameObject.GetComponent<Enemy>();
             otherEnemy.TakeDamage(m_damage);
+            shootVFX.Stop();
+            hitImpactVFX.Play();
+            myCollider.enabled = false;
+            alreadyHitImpact = true;
+        }
+
+        if (collision.gameObject.name.Contains("Identity"))
+        {
+            player.myLife.TakeDamage();
+            Debug.Log("acertooou");
+
             shootVFX.Stop();
             hitImpactVFX.Play();
             myCollider.enabled = false;

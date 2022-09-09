@@ -27,6 +27,12 @@ public class FallenState : IPlayerStates
         throw new System.NotImplementedException();
     }
 
+
+    public void Fallen()
+    {
+
+    }
+
     public void CreatePlayerImpact(Vector3 impactValue)
     {
         throw new System.NotImplementedException();
@@ -52,7 +58,7 @@ public class FallenState : IPlayerStates
         throw new System.NotImplementedException();
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(Vector3 impactValue)
     {
         throw new System.NotImplementedException();
     }

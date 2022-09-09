@@ -5,13 +5,14 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] float actualHealth, maxHealth = 3f;
-    Rigidbody rb;
+    [SerializeField] Rigidbody rb;
     [SerializeField] Transform target;
     public float moveSpeed = 4f;
 
+    [SerializeField] float impactIntensity;
+
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
         actualHealth = maxHealth;
     }
 
@@ -28,6 +29,15 @@ public class Enemy : MonoBehaviour
         if(actualHealth <= 0)
         {
             Destroy(gameObject);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.name == "Player")
+        {
+            Debug.Log("ATINGIU AAAA");
+            collision.gameObject.GetComponent<Player>().TakeDamage((collision.gameObject.transform.position - transform.position).normalized * impactIntensity);
         }
     }
 }

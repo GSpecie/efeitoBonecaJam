@@ -5,18 +5,21 @@ using UnityEngine;
 public class DialogueTrigger : MonoBehaviour
 {
 
-	public Dialogue dialogue;
+	[SerializeField] Dialogue dialogue;
+    [SerializeField] DialogueManager myDialogueManager;
+    bool alreadyTriggered = false;
 
-	public void TriggerDialogue()
+    public void TriggerDialogue()
 	{
-		FindObjectOfType<DialogueManager>().StartDialogue(dialogue);
+        myDialogueManager.StartDialogue(dialogue);
 	}
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.name == "Player")
+        if(other.gameObject.name == "Player" && alreadyTriggered == false)
         {
             TriggerDialogue();
+            alreadyTriggered = true;
         }
     }
 }

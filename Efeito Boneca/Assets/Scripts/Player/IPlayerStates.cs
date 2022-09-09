@@ -16,7 +16,7 @@ public interface IPlayerStates
     /// Causa dano ao jogador
     /// </summary>
     /// <param name="damage">valor do dano</param>
-    void TakeDamage(float damage);
+    void TakeDamage(Vector3 impactValue);
     /// <summary>
     /// checa coisas como raycasts
     /// </summary>
@@ -31,5 +31,6 @@ public interface IPlayerStates
     void ChangesInStates();
     void DropCooldown();
     void CreatePlayerImpact(Vector3 impactValue);
-    //void Dash();
+    void Dash();
+    void Fallen();
 }

@@ -38,6 +38,8 @@ public class Player : MonoBehaviour
     //variável rigibody
     public Rigidbody rb;
 
+    public GameObject playerChar;
+
     //variáveis botões e analógicos
 
     public bool isGamepad;
@@ -132,7 +134,7 @@ public class Player : MonoBehaviour
 
     float lastDamageTime = Mathf.NegativeInfinity;
 
-    //public Animator CharacterAnim;
+    public Animator animatorChar;
 
     public Camera playerCam;
 
@@ -140,6 +142,18 @@ public class Player : MonoBehaviour
     AudioClip[] runAudioClip;
 
     int randomRunSound;
+
+    public AudioSource SFX_shoot;
+    public AudioSource SFX_dash;
+
+    //váriaveis identidade
+
+    [HideInInspector] public bool isFallen = false;
+    [HideInInspector] public float cooldownToRaise;
+    public float cooldownToRaiseOriginal;
+    public PlayerHealth myLife;
+    public Texture charTexture, dollTexture;
+    public Renderer myMeshRenderer;
 
     private void Awake()
     {
@@ -152,6 +166,7 @@ public class Player : MonoBehaviour
         cooldownToDie = cooldownToDieOriginal;
         cooldownToDash = cooldownToDashOriginal;
         cooldownToShoot = cooldownToShootOriginal;
+        cooldownToRaise = cooldownToRaiseOriginal;
         //CharacterAnim = GetComponent<Animator>();
     }
 
@@ -174,7 +189,7 @@ public class Player : MonoBehaviour
 
         currentState = defaultState;
 
-        Life();
+        EnergyBars();
         ChangesInStates();
     }
 
@@ -182,7 +197,7 @@ public class Player : MonoBehaviour
     {
         CheckInput();
         CheckCasts();
-        Life();
+        EnergyBars();
 
         ResetForces();
     }
@@ -209,6 +224,19 @@ public class Player : MonoBehaviour
     {
         Move();
         DropCoooldown();
+
+        if (isFallen)
+        {
+            cooldownToRaise -= Time.fixedDeltaTime;
+
+            if (cooldownToRaise <= 0)
+            {
+                isFallen = false;
+                animatorChar.SetBool("IsFallen", false);
+                cooldownToRaise = cooldownToRaiseOriginal;
+            }
+
+        }
     }
 
     void CheckCasts()
@@ -237,18 +265,25 @@ public class Player : MonoBehaviour
     }
 
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(Vector3 impactValue)
     {
-        if (Time.time - lastDamageTime > 0.25f)
+        if (Time.time - lastDamageTime > 1f)
         {
-            currentState.TakeDamage(damage);
+            currentState.TakeDamage(impactValue);
             lastDamageTime = Time.time;
+
+            Fallen();
         }
     }
 
-    void Life()
+    void EnergyBars()
     {
         currentState.EnergyBars();
+    }
+
+    void Fallen()
+    {
+        currentState.Fallen();
     }
 
 
@@ -308,6 +343,12 @@ public class Player : MonoBehaviour
     private void OnDisable()
     {
         actionMap.Disable();
+    }
+
+    public void DesactivateHealthVisuals()
+    {
+        myLife.StopAllVisuals();
+        myMeshRenderer.material.mainTexture = charTexture;
     }
 }
 
