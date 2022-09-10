@@ -134,6 +134,7 @@ public class Player : MonoBehaviour
 
     float lastDamageTime = Mathf.NegativeInfinity;
 
+    public Animator animatorIdentity;
     public Animator animatorChar;
 
     public Camera playerCam;
@@ -154,7 +155,7 @@ public class Player : MonoBehaviour
     public float cooldownToRaiseOriginal;
     public PlayerHealth myLife;
     public Texture charTexture, dollTexture;
-    public Renderer myMeshRenderer;
+    public SkinnedMeshRenderer myMeshRenderer;
 
     private void Awake()
     {
@@ -221,7 +222,7 @@ public class Player : MonoBehaviour
             if (cooldownToRaise <= 0)
             {
                 isFallen = false;
-                animatorChar.SetBool("IsFallen", false);
+                animatorIdentity.SetBool("IsFallen", false);
                 cooldownToRaise = cooldownToRaiseOriginal;
             }
 

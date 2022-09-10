@@ -108,7 +108,7 @@ public class PlayerProjectile : MonoBehaviour
 
         if (collision.gameObject.tag.Contains("Boss"))
         {
-            BossOne otherEnemy = collision.gameObject.GetComponent<BossOne>();
+            BossOne otherEnemy = collision.gameObject.GetComponentInParent<BossOne>();
             otherEnemy.TakeDamage(m_damage);
             shootVFX.Stop();
             hitImpactVFX.Play();

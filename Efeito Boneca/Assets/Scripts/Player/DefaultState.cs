@@ -34,6 +34,7 @@ public class DefaultState : IPlayerStates
             Recoil();
             player.SFX_shoot.Play();
             player.muzzleVFX.Play();
+            player.animatorChar.SetTrigger("Shoot");
 
             player.bullets[player.bulletIndex].transform.position = player.bulletPoint.position;
             player.bullets[player.bulletIndex].transform.rotation = player.bulletPoint.rotation;
@@ -170,18 +171,20 @@ public class DefaultState : IPlayerStates
             }
         }
 
-        //player.CharacterAnim.SetFloat("positionX", player.leftJoystickHorizontal);
-        //player.CharacterAnim.SetFloat("positionY", player.leftJoystickHorizontal);
+        player.animatorChar.SetFloat("PositionX", player.leftJoystick.x);
+        player.animatorChar.SetFloat("PositionY", player.leftJoystick.y);
 
-        //if (player.leftJoystickHorizontal != 0 || player.leftJoystickVertical != 0)
-        //{
-        //    player.CharacterAnim.SetBool("isRunning", true);
-        //}
-        //else player.CharacterAnim.SetBool("isRunning", false);
+        if (player.actionMap.Default.Movement.ReadValue<Vector2>().x != 0 || player.actionMap.Default.Movement.ReadValue<Vector2>().y != 0)
+        {
+            player.animatorChar.SetBool("IsRunning", true);
+        }
+        else player.animatorChar.SetBool("IsRunning", false);
     }
     public void TakeDamage (Vector3 impactValue)
     {
         player.externalForce += impactValue;
+
+        player.animatorChar.SetTrigger("TakeDamage");
 
         if (player.isFallen == false)
         {
@@ -196,7 +199,7 @@ public class DefaultState : IPlayerStates
 
     public void Fallen()
     {
-            player.animatorChar.SetBool("IsFallen", true);
+            player.animatorIdentity.SetBool("IsFallen", true);
             player.myMeshRenderer.material.mainTexture = player.dollTexture;
             //player.cooldownToRaise -= Time.fixedDeltaTime;
     }
@@ -240,6 +243,7 @@ public class DefaultState : IPlayerStates
             player.currentShootEnergy += 15f;
             player.dashVFX.Play();
             player.SFX_dash.Play();
+            player.animatorChar.SetTrigger("Dash");
 
             if (player.leftJoystick != Vector2.zero)
             {
