@@ -60,6 +60,7 @@ public class PlayerHealth : MonoBehaviour
         {
             currenthealth = 0;
             myPlayer.CurrentState = myPlayer.deadState;
+            myPlayer.animatorChar.SetTrigger("Death");
             identityV0VFX.Play();
         }
     }
