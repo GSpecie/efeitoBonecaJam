@@ -2665,6 +2665,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camAnimator: {fileID: 260188133}
   roomNumber: 3
+  myPlayer: {fileID: 0}
 --- !u!65 &1351830853
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2738,6 +2739,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camAnimator: {fileID: 260188133}
   roomNumber: 1
+  myPlayer: {fileID: 0}
 --- !u!4 &1410183489 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7410912097689995624, guid: 806b4ee669a91c742a1bdce3b48cd3e9, type: 3}
@@ -3008,6 +3010,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camAnimator: {fileID: 260188133}
   roomNumber: 2
+  myPlayer: {fileID: 0}
 --- !u!224 &1651890216 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2822773083172864507, guid: 230d0bcf13fc0f64f83b2ef6b560edfc, type: 3}
@@ -3230,11 +3233,6 @@ Transform:
   m_Father: {fileID: 1410183489}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &1834983786 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 7410912096615584715, guid: 806b4ee669a91c742a1bdce3b48cd3e9, type: 3}
-  m_PrefabInstance: {fileID: 7410912097075008493}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1856182823 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1333129625531975319, guid: 91fa8e2a419046149829e583447bace7, type: 3}
@@ -4471,7 +4469,7 @@ PrefabInstance:
     - target: {fileID: 7410912097689995625, guid: 806b4ee669a91c742a1bdce3b48cd3e9, type: 3}
       propertyPath: myMeshRenderer
       value: 
-      objectReference: {fileID: 1834983786}
+      objectReference: {fileID: 0}
     - target: {fileID: 7410912097689995625, guid: 806b4ee669a91c742a1bdce3b48cd3e9, type: 3}
       propertyPath: bullets.Array.data[0]
       value: 
