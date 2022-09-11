@@ -151,6 +151,10 @@ public class Player : MonoBehaviour
     public Texture charTexture, dollTexture;
     public SkinnedMeshRenderer myMeshRenderer;
 
+
+    [SerializeField] private GameObject tutorialKeyboardAndMouseInstructions;
+    [SerializeField] private GameObject tutorialGamepadInstructions;
+
     private void Awake()
     {
         actionMap = new PlayerActionMapControls();
@@ -202,6 +206,17 @@ public class Player : MonoBehaviour
     public void OnDeviceChange(PlayerInput pI)
     {
         isGamepad = pI.currentControlScheme.Equals("Gamepad") ? true : false;
+
+        if (isGamepad == true)
+        {
+            tutorialGamepadInstructions.SetActive(true);
+            tutorialKeyboardAndMouseInstructions.SetActive(false);
+        }
+        else
+        {
+            tutorialGamepadInstructions.SetActive(false);
+            tutorialKeyboardAndMouseInstructions.SetActive(true);
+        }
     }
 
     private void FixedUpdate()
