@@ -44,7 +44,6 @@ public class BossOne : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -52,6 +51,15 @@ public class BossOne : MonoBehaviour
     {
         Life();
     }
+
+    public void DesactivateEnemies()
+    {
+        for(int i = 0; i < dolls.Length; i++)
+        {
+            dolls[i].gameObject.SetActive(false);
+        }
+    }
+
     public void ResetAmountOfShoots()
     {
         amountOfShootsOne = amountOfShootsOneOriginal;
