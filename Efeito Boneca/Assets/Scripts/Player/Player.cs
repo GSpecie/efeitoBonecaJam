@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -219,7 +218,7 @@ public class Player : MonoBehaviour
                 isFallen = false;
                 animatorIdentity.SetBool("IsFallen", false);
                 cooldownToRaise = cooldownToRaiseOriginal;
-                SceneManager.LoadScene("Scn_GameOver");
+
             }
 
         }
