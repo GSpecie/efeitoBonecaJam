@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class BossOne : MonoBehaviour
 {
@@ -41,6 +42,8 @@ public class BossOne : MonoBehaviour
     [SerializeField] public int amountOfShootsOne;
     [SerializeField] public int amountOfShootsOneOriginal;
 
+    [SerializeField] private Animator animatorScnTransition;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -52,12 +55,22 @@ public class BossOne : MonoBehaviour
         Life();
     }
 
+
     public void DesactivateEnemies()
     {
         for(int i = 0; i < dolls.Length; i++)
         {
             dolls[i].gameObject.SetActive(false);
         }
+
+        StartCoroutine(CreditsScn());
+    }
+    IEnumerator CreditsScn()
+    {
+        yield return new WaitForSeconds(2f);
+        animatorScnTransition.SetTrigger("ScreenOn");
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene("Scn_Credits");
     }
 
     public void ResetAmountOfShoots()
@@ -131,6 +144,7 @@ public class BossOne : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
+        animatorBoss.SetTrigger("TakeDamage");
     }
 
     public void iniciateBoss()
