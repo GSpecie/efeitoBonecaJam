@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] Player myPlayer;
 
     float lastDamageTime = Mathf.NegativeInfinity;
+
+    [SerializeField] private Animator animatorScnTransition;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -61,6 +64,9 @@ public class PlayerHealth : MonoBehaviour
             myPlayer.CurrentState = myPlayer.deadState;
             myPlayer.animatorChar.SetTrigger("Death");
             identityV0VFX.Play();
+
+            StartCoroutine(GameOverScn());
+
         }
     }
 
@@ -75,5 +81,13 @@ public class PlayerHealth : MonoBehaviour
 
         identityV1VFX.Clear();
         identityV1VFX.Stop();
+    }
+
+    IEnumerator GameOverScn()
+    {
+        yield return new WaitForSeconds(2f);
+        animatorScnTransition.SetTrigger("ScreenOn");
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene("Scn_GameOver");
     }
 }

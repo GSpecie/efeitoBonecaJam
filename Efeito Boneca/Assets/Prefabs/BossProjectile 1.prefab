@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4388464334865330524}
   - component: {fileID: 813232450889154297}
   - component: {fileID: 3219468809186413107}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: comoda
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 4281881400399095695}
   - component: {fileID: 4281881400399095690}
   - component: {fileID: 8857510350765036829}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: BossProjectile 1
   m_TagString: BossBullet
   m_Icon: {fileID: 0}
@@ -200,7 +200,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4281881400952023987}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}

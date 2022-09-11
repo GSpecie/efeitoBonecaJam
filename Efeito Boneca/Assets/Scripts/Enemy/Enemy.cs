@@ -18,6 +18,8 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private BossOne myBoss;
 
+    private bool iAmDead = false;
+
     void Start()
     {
         actualHealth = maxHealth;
@@ -25,9 +27,18 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector3 pos = Vector3.MoveTowards(transform.position, target.position, moveSpeed * Time.fixedDeltaTime);
-        rb.MovePosition(pos);
-        transform.LookAt(target);
+        if(iAmDead == false)
+        {
+            Vector3 pos = Vector3.MoveTowards(transform.position, target.position, moveSpeed * Time.fixedDeltaTime);
+            rb.MovePosition(pos);
+            transform.LookAt(target);
+        }
+        else
+        {
+            rb.MovePosition(this.transform.position);
+            transform.LookAt(target);
+        }
+
     }
     public void TakeDamage(float damageAmount)
     {
@@ -50,8 +61,10 @@ public class Enemy : MonoBehaviour
 
     public void Revive()
     {
-        rb.isKinematic = false;
+        //rb.isKinematic = false;
+        iAmDead = false;
         myCollider.enabled = true;
+        actualHealth = maxHealth;
         myVisual.SetActive(true);
     }
 
@@ -59,11 +72,9 @@ public class Enemy : MonoBehaviour
     {
         //rb.velocity = Vector3.zero;
         animator.SetTrigger("Death");
-        rb.isKinematic = true;
+        //rb.isKinematic = true;
+        iAmDead = true;
         myCollider.enabled = false;
-
-        
-
     }
 
     public void TrueDeath()
