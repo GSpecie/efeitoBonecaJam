@@ -219,6 +219,7 @@ public class Player : MonoBehaviour
                 isFallen = false;
                 animatorIdentity.SetBool("IsFallen", false);
                 cooldownToRaise = cooldownToRaiseOriginal;
+                SceneManager.LoadScene("Scn_GameOver");
             }
 
         }
