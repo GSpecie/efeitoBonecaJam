@@ -28,7 +28,6 @@ public class PlayerHealth : MonoBehaviour
         if (Time.time - lastDamageTime > 1f)
         {
             currenthealth--;
-            Debug.Log(currenthealth);
 
             AttVisualFeedback();
 

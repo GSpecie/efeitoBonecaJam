@@ -25,6 +25,8 @@ public class PlayerProjectile : MonoBehaviour
     [SerializeField] private SphereCollider myCollider;
     private bool alreadyHitImpact;
 
+    [SerializeField] private AudioSource sFX_hit;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -83,6 +85,7 @@ public class PlayerProjectile : MonoBehaviour
             hitImpactVFX.Play();
             myCollider.enabled = false;
             alreadyHitImpact = true;
+            sFX_hit.Play();
         }
 
         if (collision.gameObject.tag.Contains("Enemy"))
@@ -93,6 +96,7 @@ public class PlayerProjectile : MonoBehaviour
             hitImpactVFX.Play();
             myCollider.enabled = false;
             alreadyHitImpact = true;
+            sFX_hit.Play();
         }
 
         if (collision.gameObject.name.Contains("Identity"))
@@ -104,6 +108,7 @@ public class PlayerProjectile : MonoBehaviour
             hitImpactVFX.Play();
             myCollider.enabled = false;
             alreadyHitImpact = true;
+            sFX_hit.Play();
         }
 
         if (collision.gameObject.tag.Contains("Boss"))
@@ -114,6 +119,16 @@ public class PlayerProjectile : MonoBehaviour
             hitImpactVFX.Play();
             myCollider.enabled = false;
             alreadyHitImpact = true;
+            sFX_hit.Play();
+        }
+
+        if (collision.gameObject.CompareTag("BossBullet"))
+        {
+            shootVFX.Stop();
+            hitImpactVFX.Play();
+            myCollider.enabled = false;
+            alreadyHitImpact = true;
+            sFX_hit.Play();
         }
     }
 }

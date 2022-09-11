@@ -139,14 +139,9 @@ public class Player : MonoBehaviour
 
     public Camera playerCam;
 
-    [SerializeField]
-    AudioClip[] runAudioClip;
-
-    int randomRunSound;
-
-    public AudioSource SFX_shoot;
-    public AudioSource SFX_dash;
-    public AudioSource SFX_identityFallen;
+    public AudioSource sFX_shoot;
+    public AudioSource sFX_dash;
+    public AudioSource sFX_identityFallen;
 
     //váriaveis identidade
 
@@ -303,11 +298,7 @@ public class Player : MonoBehaviour
         //runSmokeVFX.Emit(1);
     }
 
-    //public void RunSound()
-    //{
-    //    randomRunSound = Random.Range(0, runAudioClip.Length);
-    //    audioManagerScript.ChangeClip(runAudioClip[randomRunSound], "run");
-    //}
+
 
     //public void DashVFX(int booleanInt)
     //{
@@ -338,7 +329,7 @@ public class Player : MonoBehaviour
     public void DesactivateHealthVisuals()
     {
         myLife.StopAllVisuals();
-        SFX_identityFallen.Stop();
+        sFX_identityFallen.Stop();
         myMeshRenderer.material.mainTexture = charTexture;
     }
 
