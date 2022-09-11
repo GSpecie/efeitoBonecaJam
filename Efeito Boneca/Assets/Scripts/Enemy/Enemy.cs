@@ -11,6 +11,13 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] float impactIntensity;
 
+    [SerializeField] private Collider myCollider;
+    [SerializeField] private GameObject myVisual;
+
+    [SerializeField] private Animator animator;
+
+    [SerializeField] private BossOne myBoss;
+
     void Start()
     {
         actualHealth = maxHealth;
@@ -28,7 +35,7 @@ public class Enemy : MonoBehaviour
 
         if(actualHealth <= 0)
         {
-            Destroy(gameObject);
+            Death();
         }
     }
 
@@ -40,4 +47,30 @@ public class Enemy : MonoBehaviour
             collision.gameObject.GetComponent<Player>().TakeDamage((collision.gameObject.transform.position - transform.position).normalized * impactIntensity);
         }
     }
+
+    public void Revive()
+    {
+        rb.isKinematic = false;
+        myCollider.enabled = true;
+        myVisual.SetActive(true);
+    }
+
+    public void Death()
+    {
+        //rb.velocity = Vector3.zero;
+        animator.SetTrigger("Death");
+        rb.isKinematic = true;
+        myCollider.enabled = false;
+
+        
+
+    }
+
+    public void TrueDeath()
+    {
+        myVisual.SetActive(false);
+        myBoss.ReduceDolls();
+    }
+
+
 }

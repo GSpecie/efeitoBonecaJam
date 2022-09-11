@@ -1653,17 +1653,23 @@ MonoBehaviour:
   animatorIdentity: {fileID: 5376563040189550451}
   animatorChar: {fileID: 5583042841332767761}
   playerCam: {fileID: 0}
-  runAudioClip: []
-  SFX_shoot: {fileID: 3304837732292685428}
-  SFX_dash: {fileID: 1821874134136964985}
-  SFX_identityFallen: {fileID: 5280393317838706683}
+  runAudioClip:
+  - {fileID: 8300000, guid: b98c3e578a61f5f4ab3b138718a5d997, type: 3}
+  - {fileID: 8300000, guid: 485a4943e061202458c9e5b84d08c05d, type: 3}
+  - {fileID: 8300000, guid: fe527f5065c989945a25e1127c3efb7f, type: 3}
+  - {fileID: 8300000, guid: 19a2cd16ed3dcae49ab47f23a30bb653, type: 3}
+  - {fileID: 8300000, guid: fa54f1145ceea4f488fcb1c65606673b, type: 3}
+  SFX_run: {fileID: 0}
+  sFX_shoot: {fileID: 3304837732292685428}
+  sFX_dash: {fileID: 1821874134136964985}
+  sFX_identityFallen: {fileID: 5280393317838706683}
   isFallen: 0
   cooldownToRaise: 0
   cooldownToRaiseOriginal: 100
   myLife: {fileID: 6901553058952874415}
   charTexture: {fileID: 2800000, guid: f37181c052a848a4bae45b295ca3128f, type: 3}
   dollTexture: {fileID: 2800000, guid: 8b9be4479aa8bf0409cd38ef01b4a807, type: 3}
-  myMeshRenderer: {fileID: 0}
+  myMeshRenderer: {fileID: 7737304907685951914}
 --- !u!114 &7410912097689995627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2196,11 +2202,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1251912802882647430, guid: 003ee505e06ded1469ad37314f001806, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.64
       objectReference: {fileID: 0}
     - target: {fileID: 1251912802882647430, guid: 003ee505e06ded1469ad37314f001806, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.9
+      value: -0.54
       objectReference: {fileID: 0}
     - target: {fileID: 1251912802882647430, guid: 003ee505e06ded1469ad37314f001806, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2863,6 +2869,11 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!137 &7737304907685951914 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5266764545580405427, guid: c35dfbb20ddcb8a4981a4b8038ab900f, type: 3}
+  m_PrefabInstance: {fileID: 2483492901757184793}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2731987859215010817
 PrefabInstance:
   m_ObjectHideFlags: 0

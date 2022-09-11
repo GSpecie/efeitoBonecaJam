@@ -32,7 +32,7 @@ public class DefaultState : IPlayerStates
             player.currentShootEnergy -= 30f;
             player.currentDashEnergy += 15f;
             Recoil();
-            player.SFX_shoot.Play();
+            player.sFX_shoot.Play();
             player.muzzleVFX.Play();
             player.animatorChar.SetTrigger("Shoot");
 
@@ -52,6 +52,8 @@ public class DefaultState : IPlayerStates
 
     public void EnergyBars()
     {
+        player.animatorChar.SetFloat("EnergyMovement", player.currentDashEnergy + player.currentShootEnergy);
+        //Debug.Log(player.currentDashEnergy + player.currentShootEnergy);
         MovementEnergy();
         ShootEnergy();
     }
@@ -188,9 +190,8 @@ public class DefaultState : IPlayerStates
 
         if (player.isFallen == false)
         {
-            Debug.Log("aqui");
             player.isFallen = true;
-            player.SFX_identityFallen.Play();
+            player.sFX_identityFallen.Play();
             player.myLife.AttVisualFeedback();
         }
         
@@ -242,7 +243,7 @@ public class DefaultState : IPlayerStates
             player.currentDashEnergy -= 30f;
             player.currentShootEnergy += 15f;
             player.dashVFX.Play();
-            player.SFX_dash.Play();
+            player.sFX_dash.Play();
             player.animatorChar.SetTrigger("Dash");
 
             if (player.leftJoystick != Vector2.zero)
