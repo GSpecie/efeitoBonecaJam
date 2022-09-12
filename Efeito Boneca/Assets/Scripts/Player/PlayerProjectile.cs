@@ -111,7 +111,7 @@ public class PlayerProjectile : MonoBehaviour
             sFX_hit.Play();
         }
 
-        if (collision.gameObject.tag.Contains("Boss"))
+        if (collision.gameObject.CompareTag("Boss"))
         {
             BossOne otherEnemy = collision.gameObject.GetComponentInParent<BossOne>();
             otherEnemy.TakeDamage(m_damage);
